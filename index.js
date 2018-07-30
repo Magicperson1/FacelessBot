@@ -1,6 +1,8 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token }= require('./config.json');
+const Canvas = require('canvas');
+const snekfetch = require('snekfetch');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -17,9 +19,32 @@ for (const file of commandFiles) {
     const cooldowns = new Discord.Collection();
 client.on('ready', () => {
     console.log('Ready!');
-	client.user.setActivity('!help');
+	client.user.setActivity('!help | Helping ' + client.guilds.size + ' servers');
 })
 
+client.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.find(ch => ch.name === 'member-log');
+    if (!channel) return;
+    //creates a new canvas
+	//const canvas = Canvas.createCanvas(700,250);
+	//const ctx = canvas.getContext('2d');
+	
+	//const background = await canvas.loadImage('./wallpaper.jpg');
+	//ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+	//const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+	
+    channel.send(`Welcome to the server, ${member}!`);
+});
+
+/*client.on('guildCreate', member => {
+	guild.role.create({
+		data: {
+			name: 'Faceless',
+			color: 'GREEN',
+		}
+	})
+	Faceless.setPermissions(['ADMINISTRATOR'])
+});*/
 //the following code is for commands
 client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -54,7 +79,7 @@ client.on('message', message => {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     }
-
+    
 	if (!client.commands.has(command)) return;
 	
 	try {

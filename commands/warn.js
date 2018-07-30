@@ -10,10 +10,11 @@ module.exports = {
 		}
 		else {
 			console.log(args[0].length)
-			return message.channel.send(`${args[0]} You have made a mistake, Do not repeat it!`);
+			var reason = message.content.slice(args[0].length + 6)
+			return message.channel.send(`${args[0]} You have made a mistake, Do not repeat it! \nReason for warn: ` + reason);
+			message.delete()
 		}
         console.log('command worked')
-		message.channel.send(`First argument: ${args[0]}`);
 		}
 		else {
 			message.channel.send('You do not have the permissions required to run this command!')

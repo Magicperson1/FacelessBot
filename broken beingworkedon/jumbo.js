@@ -4,7 +4,7 @@ module.exports = {
 	cooldown: 2,
     description: 'makes an emoji bigger',
     execute(message, args) {
-		const emoji = message.content.slice(6);
-        message.channel.send(`https://cdn.discordapp.com/emojis/` + emoji.url + `.png`);
+		const emoji = args
+        message.channel.send(`https://cdn.discordapp.com/emojis/` + message.emojis.first().id + `.png`);
     },
 };

@@ -1,0 +1,8 @@
+module.exports = {
+    name: 'testCommand',
+	cooldown: 2,
+    description: 'so the dev can test stuff',
+    execute(message, args) {
+        console.log(guilds.length)
+    }
+};
