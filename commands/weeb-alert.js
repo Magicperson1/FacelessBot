@@ -10,7 +10,7 @@ module.exports = {
 		else {
 			console.log(args[0].length)
 			message.delete()
-			message.channel.send(`@here Looks like ${args[0]} is being a weeb!`);
+			message.channel.send(`Looks like ${args[0]} is being a weeb!`);
 		}
 	},
 };
