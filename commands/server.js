@@ -17,6 +17,15 @@ module.exports = {
                 name: 'Member Count: ',
                 value: message.guild.memberCount,
             },
+            {
+                name: 'Owner: ',
+                value: message.guild.owner.user.username,
+            },
+            {
+                name: 'Created: ',
+                value: message.guild.createdAt,
+            },
+
         ],
         image: {
             url: message.guild.iconURL,

@@ -9,6 +9,7 @@ module.exports = {
         const { commands } = message.client;
 
         if (!args.length) {
+           data.push('To best support faceless bot make sure to upvote it on dbl https://discordbots.org/bot/469157269771124736/vote')
            data.push('Here\'s a list of all my commands:');
            data.push(commands.map(command => command.name).join(', '));
            data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);

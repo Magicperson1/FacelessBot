@@ -3,6 +3,7 @@ module.exports = {
 	cooldown: 2,
     description: 'Ping!',
     execute(message, args) {
-        message.channel.send(`Pong.`);
+		var pingTime = new Date().getTime() - message.createdTimestamp
+        message.channel.send(`Pong! ${pingTime} ms`);
     },
 };

@@ -1,11 +1,13 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token }= require('./config.json');
-const Canvas = require('canvas');
+
 const snekfetch = require('snekfetch');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+const DBL = require("dblapi.js");
+const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2OTE1NzI2OTc3MTEyNDczNiIsImJvdCI6dHJ1ZSwiaWF0IjoxNTMzMjU3NjkwfQ.-rcmp1jyQq0D18zZTY44FzvBzBTjmnJLhAvNohDEMGU',client);
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -19,7 +21,10 @@ for (const file of commandFiles) {
     const cooldowns = new Discord.Collection();
 client.on('ready', () => {
     console.log('Ready!');
-	client.user.setActivity('!help | Helping ' + client.guilds.size + ' servers');
+	client.user.setActivity('_help | Helping ' + client.guilds.size + ' servers');
+	setInterval(() => {
+		dbl.postStats(client.guilds.size);
+	}, 1800000);
 })
 
 client.on('guildMemberAdd', member => {
@@ -34,18 +39,25 @@ client.on('guildMemberAdd', member => {
 	//const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	
     channel.send(`Welcome to the server, ${member}!`);
+    
 });
 
-/*client.on('guildCreate', member => {
-	guild.role.create({
-		data: {
-			name: 'Faceless',
-			color: 'GREEN',
-		}
+client.on('guildCreate', guild => {
+	//guild.role.create({
+		//data: {
+			//name: 'Faceless',
+			//color: 'GREEN',
+		//}
+		client.user.setActivity('_help | Helping ' + client.guilds.size + ' servers');
 	})
-	Faceless.setPermissions(['ADMINISTRATOR'])
-});*/
+	//Faceless.setPermissions(['ADMINISTRATOR'])
+//
 //the following code is for commands
+client.on('emojiCreate', emoji => {
+    const channel = emoji.guild.channels.find(ch => ch.name === 'member-log');
+    if (!channel) return;
+    channel.send(`New emoji created, ${emoji}!`);
+})
 client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -58,6 +70,33 @@ client.on('message', message => {
 	if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
     }
+   /* if (message.mentions.users.first().id == client.user.id) {
+		message.channel.send({
+    embed: {
+        color: 0x0099ff,
+   
+        fields: [
+            {
+                name: 'Prefix: ',
+                value: prefix,
+            },
+            {
+                name: 'Bot Owner: ',
+                value: '**magic_person**',
+            },
+        ],
+        image: {
+            url: 'https://cdn.discordapp.com/avatars/469157269771124736/1744e8c44fcaeaef2a52eeea0e658f96.png?size=2048',
+        },
+        timestamp: new Date(),
+        footer: {
+            text: 'Created By Faceless',
+            icon_url: 'https://cdn.discordapp.com/avatars/469157269771124736/1744e8c44fcaeaef2a52eeea0e658f96.png?size=2048',
+        },
+    },
+})*/
+		
+	//}
  
 	const now = Date.now();
     const timestamps = cooldowns.get(command.name);
